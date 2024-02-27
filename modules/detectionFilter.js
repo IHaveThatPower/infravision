@@ -1,6 +1,7 @@
 /**
- * Shameless rip of SWADE's infravision implementation
+ * Shameless rip of SWADE's infravision vision type implementation
  *
+ * @author  Joseph Meehan
  * @author  FloRad
  * @author  IHaveThatPower <mcc@mcc3d.com>
  */
@@ -10,6 +11,7 @@ export class InfraVisionFilter extends AbstractBaseFilter {
         luminanceThreshold: 0.5,
         alphaThreshold: 0.1,
     };
+
     /**
      * fragment shader based on the following snippets:
      * @link https://www.shadertoy.com/view/4dcSDH

@@ -1,4 +1,12 @@
-
+/**
+ * Shader to alter the background color within the Infravision vision
+ * type, with the dominant colors ranging from black to bright blue,
+ * with some green mixed in near the midpoint.
+ *
+ * Work in progress.
+ *
+ * @author  IHaveThatPower <mcc@mcc3d.com>
+ */
 
 export class InfravisionColorationVisionShader extends ColorationVisionShader {
     static fragmentShader = `
@@ -39,13 +47,3 @@ export class InfravisionColorationVisionShader extends ColorationVisionShader {
     return true;
   }
 }
-
-// class InfravisionBackgroundVisionShader extends AmplificationBackgroundVisionShader {
-//     static COLOR_TINT = [0.25, 0.41, 0.88];
-//     /** @inheritdoc */
-//     // eslint-disable-next-line @typescript-eslint/naming-convention
-//     static defaultUniforms = {
-//         ...super.defaultUniforms,
-//         colorTint: this.COLOR_TINT,
-//     };
-// }
