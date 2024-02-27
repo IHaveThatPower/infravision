@@ -1,0 +1,45 @@
+{
+  "id": "infravision",
+  "title": "Infravision",
+  "description": "Modular clone of SWADE's Infravision Implementation",
+  "authors": [
+    {
+      "name": "FloRad",
+      "url": "https://gitlab.com/florad92",
+      "discord": "FloRadical#2142"
+    },
+    {
+      "name": "Joseph/ChaosOS",
+      "url": "https://joseph-meehan.carrd.co/",
+      "discord": "chaosos"
+    },
+    {
+      "name": "IHaveThatPower",
+      "url": "https://github.com/IHaveThatPower",
+      "discord": "ihavethatpower"
+    }
+  ],
+  "version": "2024.02.25",
+  "compatibility": {
+    "minimum": "11",
+    "verified": "11"
+  },
+  "esmodules": [
+    "infravision.js",
+    "modules/backgroundShader.js",
+    "modules/detectionFilter.js",
+    "modules/detectionMode.js",
+    "modules/infravision.js"
+  ],
+  "relationships": {
+		"requires": [
+			{
+				"id": "lib-wrapper",
+				"type": "module",
+				"compatibility": {
+					"verified": "1.12.13.0"
+				}
+			}
+		]
+	}
+}
