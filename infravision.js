@@ -14,39 +14,42 @@
 
 import { DetectionModeInfravision } from './modules/detectionMode.js';
 import { InfraVisionFilter } from './modules/detectionFilter.js';
-import { InfravisionColorationVisionShader } from './modules/backgroundShader.js';
 import { Infravision } from './modules/infravision.js';
 
 Hooks.once('init', () => {
     // Override CanvasVisibility class's testVisibility() function
-    libWrapper.register('infravision', 'CanvasVisibility.prototype.testVisibility', function(wrapped, ...args) {
+    libWrapper.register(Infravision.MODULE_NAME, 'CanvasVisibility.prototype.testVisibility', function(wrapped, ...args) {
         const result = wrapped(...args); // Base result, which we'll drop on the floor if our own stuff is in effect
         return Infravision.testVisibility(result, args);
     }, 'WRAPPER');
 
     // Add our detection mode
     CONFIG.Canvas.detectionModes.infravision = new DetectionModeInfravision({
-        id: 'infravision',
+        id: Infravision.MODULE_NAME,
         label: 'Infravision', // TODO: Localize
         type: DetectionMode.DETECTION_TYPES.OTHER,
     });
 
-    // Add our vision mode
-    CONFIG.Canvas.visionModes.infraVision = new VisionMode({
-        id: 'infraVision',
-        label: 'Infravision', // TODO: Localize
-        lighting: {
-            background: { visibility: VisionMode.LIGHTING_VISIBILITY.REQUIRED }
+    // Register the black/white setting toggle
+    game.settings.register(Infravision.MODULE_NAME, 'background-mode', {
+        name: "Background Mode", // TODO: Localize
+        hint: "Which color (on background images, tiles, etc.) should be treated as \"coldest\" when using infravision? (Does not affect Tokens.)", // TODO: Localize
+        scope: "world", // TODO: This should really be a client setting that gets flipped around based on which map a user is viewing, and what that map's setting is
+        config: true,
+        type: Number,
+        default: 0,
+        choices: {
+            0: "Black",
+            1: "White"
         },
-        vision: {
-            darkness: { adaptive: false },
-            defaults: {
-                attenuation: 0,
-                brightness: 0,
-                saturation: 0,
-                contrast: 0,
-            },
-            background: { shader: InfravisionColorationVisionShader }
-        }
+        restricted: true
     });
+
+    // Add our vision mode
+    Infravision.setupVisionMode();
+});
+
+Hooks.on('closeSettingsConfig', () => {
+    Infravision.setupVisionMode();
+    foundry.utils.debouncedReload();
 });

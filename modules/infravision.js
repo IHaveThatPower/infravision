@@ -6,8 +6,14 @@
  * @author  IHaveThatPower <mcc@mcc3d.com>
  */
 
+import {
+    InfravisionColorationVisionShaderBlack,
+    InfravisionColorationVisionShaderWhite
+} from './backgroundShader.js';
+
 export class Infravision
 {
+    static MODULE_NAME = 'infravision';
     static GRID_SCALE_DEFAULT = 50;
 
     /**
@@ -95,5 +101,33 @@ export class Infravision
             los: new Map()
           }))
         };
+    }
+
+    /**
+     * Setup the vision mode, toggling the shader to be used
+     *
+     * @return void
+     */
+    static setupVisionMode() {
+        // TODO: This should really be per-map-aware. See note in base module.
+        const visionModeSetting = game.settings.get(Infravision.MODULE_NAME, 'background-mode');
+        const useShader = (visionModeSetting === 1) ? InfravisionColorationVisionShaderWhite : InfravisionColorationVisionShaderBlack;
+        CONFIG.Canvas.visionModes.infraVision = new VisionMode({
+            id: Infravision.MODULE_NAME,
+            label: 'Infravision', // TODO: Localize
+            lighting: {
+                background: { visibility: VisionMode.LIGHTING_VISIBILITY.REQUIRED }
+            },
+            vision: {
+                darkness: { adaptive: false },
+                defaults: {
+                    attenuation: 0,
+                    brightness: 0,
+                    saturation: 0,
+                    contrast: 0,
+                },
+                background: { shader: useShader }
+            }
+        });
     }
 }
